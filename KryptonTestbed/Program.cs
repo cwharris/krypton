@@ -1,5 +1,3 @@
-using System;
-
 namespace KryptonTestbed
 {
 #if WINDOWS || XBOX
