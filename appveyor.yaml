@@ -1,2 +1,3 @@
 install:
-    ps: .\install-xna.ps1
+    - ps: echo installing xna
+    - ps: .\install-xna.ps1
