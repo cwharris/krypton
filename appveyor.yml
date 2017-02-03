@@ -1,0 +1,2 @@
+install:
+    - ps: .\install-xna.ps1
