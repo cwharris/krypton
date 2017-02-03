@@ -115,33 +115,33 @@ Write-Host "Step 3/4: Adding Extensions to Installed Versions of Visual Studio";
 # 6. Delete the extensions cache.
 # 7. Rebuild the extensions cache.
 
-$appName = "Visual Studio 2012 Pro";
-$pathToExe = "${Env:VS110COMNTOOLS}..\IDE\devenv.exe";
-$installLocation = "${Env:VS110COMNTOOLS}..\IDE\Extensions\Microsoft";
-$extensionCacheLocation = "$home\AppData\Local\Microsoft\VisualStudio\11.0\Extensions";
-$version = "11.0";
-InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
+# $appName = "Visual Studio 2012 Pro";
+# $pathToExe = "${Env:VS110COMNTOOLS}..\IDE\devenv.exe";
+# $installLocation = "${Env:VS110COMNTOOLS}..\IDE\Extensions\Microsoft";
+# $extensionCacheLocation = "$home\AppData\Local\Microsoft\VisualStudio\11.0\Extensions";
+# $version = "11.0";
+# InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
 
-$appName = "Visual Studio Express 2012 for Windows Desktop";
-$pathToExe = "${Env:VS110COMNTOOLS}..\IDE\WDExpress.exe";
-$installLocation = "${Env:VS110COMNTOOLS}..\IDE\WDExpressExtensions\Extensions"
-$extensionCacheLocation = "$home\AppData\Local\Microsoft\WDExpress\11.0\Extensions";
-$version = "11.0";
-InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
+# $appName = "Visual Studio Express 2012 for Windows Desktop";
+# $pathToExe = "${Env:VS110COMNTOOLS}..\IDE\WDExpress.exe";
+# $installLocation = "${Env:VS110COMNTOOLS}..\IDE\WDExpressExtensions\Extensions"
+# $extensionCacheLocation = "$home\AppData\Local\Microsoft\WDExpress\11.0\Extensions";
+# $version = "11.0";
+# InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
 
-$appName = "Visual Studio 2013 Pro";
-$pathToExe = "${Env:VS120COMNTOOLS}..\IDE\devenv.exe";
-$installLocation = "${Env:VS120COMNTOOLS}..\IDE\Extensions\Microsoft";
-$extensionCacheLocation = "$home\AppData\Local\Microsoft\VisualStudio\12.0\Extensions";
-$version = "12.0";
-InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
+# $appName = "Visual Studio 2013 Pro";
+# $pathToExe = "${Env:VS120COMNTOOLS}..\IDE\devenv.exe";
+# $installLocation = "${Env:VS120COMNTOOLS}..\IDE\Extensions\Microsoft";
+# $extensionCacheLocation = "$home\AppData\Local\Microsoft\VisualStudio\12.0\Extensions";
+# $version = "12.0";
+# InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
 
-$appName = "Visual Studio Express 2013 for Windows Desktop";
-$pathToExe = "${Env:VS120COMNTOOLS}..\IDE\WDExpress.exe";
-$installLocation = "${Env:VS120COMNTOOLS}..\IDE\WDExpressExtensions\Extensions"
-$extensionCacheLocation = "$home\AppData\Local\Microsoft\WDExpress\12.0\Extensions";
-$version = "12.0";
-InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
+# $appName = "Visual Studio Express 2013 for Windows Desktop";
+# $pathToExe = "${Env:VS120COMNTOOLS}..\IDE\WDExpress.exe";
+# $installLocation = "${Env:VS120COMNTOOLS}..\IDE\WDExpressExtensions\Extensions"
+# $extensionCacheLocation = "$home\AppData\Local\Microsoft\WDExpress\12.0\Extensions";
+# $version = "12.0";
+# InstallXna $appName $pathToExe $installLocation $extensionCacheLocation $version;
 
 $appName = "Visual Studio 2015";
 $pathToExe = "${Env:VS140COMNTOOLS}..\IDE\devenv.exe";
