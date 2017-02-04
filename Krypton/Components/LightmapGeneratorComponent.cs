@@ -10,12 +10,12 @@ namespace Krypton.Components
 {
     public class LightmapGeneratorComponent : DrawableGameComponent, ILightmapProvider
     {
-        private LightmapDrawContext _drawContext;
-        
+        private LightmapDrawContext _lightmapDrawContext;
+
         public LightmapGeneratorComponent(
             Game game,
-            IEnumerable<ILightmapPass> passes)
-            : base(game)
+            IEnumerable<ILightmapPass> passes) :
+            base(game)
         {
             if (passes == null)
             {
@@ -24,7 +24,7 @@ namespace Krypton.Components
 
             Passes = passes;
         }
-        
+
         public event Action<ILightmapPass> PassStart;
         public event Action<ILightmapPass> PassComplete;
         public event Action<ILightmapPass> PassRunning;
@@ -91,13 +91,13 @@ namespace Krypton.Components
             LoadEffect();
 
             // Can add injection here, like above.
-            _drawContext = new LightmapDrawContext(GraphicsDevice);
+            _lightmapDrawContext = new LightmapDrawContext(GraphicsDevice);
 
             CreateLightmapTarget();
 
             GraphicsDevice.DeviceReset += GraphicsDeviceReset;
     
-            Generator = new LightmapGenerator(GraphicsDevice, Effect, _drawContext);
+            Generator = new LightmapGenerator(GraphicsDevice, Effect, _lightmapDrawContext);
         }
         
         private void LoadEffect()

@@ -48,22 +48,24 @@ namespace Krypton.Lights
         public void Draw(
             LightmapEffect lightmapEffect,
             ILightmapPass lightmapPass,
-            ILightmapDrawContext helper,
-            IEnumerable<IShadowHull> hulls)
+            ILightmapDrawContext lightmapDrawContext,
+            IEnumerable<IShadowHull> shadowHulls)
         {
             lightmapEffect.Effect.GraphicsDevice.ScissorRectangle = lightmapPass.GetScissor(this);
 
-            // lightmapEffect.Effect.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, 200, 200);
-
-            // 1) Clear shadowHull buffers
-            helper.Clear();
+            // 1) ClearShadowHulls hull buffers
+            lightmapDrawContext.ClearShadowHulls();
 
             // 2) Prepare to draw hulls
-            var hullsToDraw = hulls.Where(x => Vector2.DistanceSquared(Position, x.Position) < RadiusSquared + x.RadiusSquared);
-
-            foreach (var hull in hullsToDraw)
+            foreach (var hull in shadowHulls)
             {
-                hull.Draw(helper);
+                if (Vector2.DistanceSquared(Position, hull.Position) > RadiusSquared + hull.RadiusSquared)
+                {
+                    continue;
+                }
+
+                lightmapDrawContext.PrepareToDrawNextShadowHull();
+                hull.Draw(lightmapDrawContext);
             }
 
             // 3) Set lightmapEffect stuff
@@ -86,21 +88,21 @@ namespace Krypton.Lights
                     throw new ArgumentOutOfRangeException();
             }
 
-            // 4) Draw hulls for each shadow pass
+            // 4) DrawShadowHulls shadowHulls for each shadow pass
             foreach (var pass in lightmapEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                helper.Draw();
+                lightmapDrawContext.DrawShadowHulls();
             }
 
-            // 5) Draw light for each light pass
+            // 5) DrawShadowHulls light for each light pass
             lightmapEffect.CurrentTechnique = lightmapEffect.LightTechnique;
 
             foreach (var pass in lightmapEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
-                helper.DrawClippedFov(
+                lightmapDrawContext.DrawClippedFov(
                     position: Position,
                     rotation: 0f,
                     size: Radius * 2,
@@ -108,7 +110,7 @@ namespace Krypton.Lights
                     fov: MathHelper.TwoPi);
             }
 
-            // 6) Clear the target's alpha chanel
+            // 6) ClearShadowHulls the target's alpha chanel
             lightmapEffect.CurrentTechnique = lightmapEffect.AlphaClearTechnique;
 
             //lightmapEffect.Effect.GraphicsDevice.ScissorRectangle = lightmapEffect.Effect.GraphicsDevice.Viewport.Bounds;
@@ -116,7 +118,7 @@ namespace Krypton.Lights
             foreach (var pass in lightmapEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                helper.DrawUnitQuad();
+                lightmapDrawContext.DrawUnitQuad();
             }
         }
     }

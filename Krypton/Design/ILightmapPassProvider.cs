@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Krypton.Design;
 
-namespace Krypton
+namespace Krypton.Design
 {
     public interface ILightmapPassProvider
     {

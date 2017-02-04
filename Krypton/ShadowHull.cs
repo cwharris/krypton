@@ -89,8 +89,8 @@ namespace Krypton
         /// <summary>
         /// Draws the shadowHull.
         /// </summary>
-        /// <param name="drawContext">The Lightmap Draw Buffer</param>
-        public void Draw(ILightmapDrawContext drawContext)
+        /// <param name="drawContext">The Lightmap DrawShadowHulls Buffer</param>
+        public void Draw(IShadowHullDrawContext drawContext)
         {
             // Create the matrices (3X speed boost versus prior version)
             _cos = (float) Math.Cos(Angle);
@@ -109,8 +109,6 @@ namespace Krypton
             _normalMatrix.M12 = (1f / Scale.X) * _sin;
             _normalMatrix.M21 = (1f / Scale.Y) * -_sin;
             _normalMatrix.M22 = (1f / Scale.Y) * _cos;
-
-            drawContext.SetStartVertex();
 
             // Add the vertices to the buffer
             var hullVerticesLength = _vertices.Length;
@@ -132,14 +130,14 @@ namespace Krypton
 
                 _hullVertex.Color = ShadowBlack;
 
-                drawContext.AddVertex(_hullVertex);
+                drawContext.AddShadowHullVertex(_hullVertex);
             }
 
             var hullIndicesLength = _indices.Length;
 
             for (var i = 0; i < hullIndicesLength; i++)
             {
-                drawContext.AddIndex(_indices[i]);
+                drawContext.AddShadowHullIndex(_indices[i]);
             }
         }
     }

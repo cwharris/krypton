@@ -8,10 +8,6 @@ namespace Krypton
 {
     public class LightmapDrawContext : ILightmapDrawContext
     {
-        private readonly GraphicsDevice _device;
-
-        private readonly List<HullVertex> _vertices;
-
         private static readonly VertexPositionTexture[] UnitQuad =
         {
             new VertexPositionTexture(new Vector3(-1, +1, 0), new Vector2(0, 0)),
@@ -19,24 +15,41 @@ namespace Krypton
             new VertexPositionTexture(new Vector3(-1, -1, 0), new Vector2(0, 1)),
             new VertexPositionTexture(new Vector3(+1, -1, 0), new Vector2(1, 1)),
         };
-        
+
+        private readonly GraphicsDevice _device;
+        private readonly List<HullVertex> _vertices = new List<HullVertex>();
+        private readonly int[] _indices = new int[1024 * 1024];
+        private int _numIndicies;
+        private int _startVertex;
         private VertexPositionColorTexture[] _clippedFovVertices;
 
-        private readonly int[] _indices = new int[1024 * 1024];
-
-        private int _numIndicies;
-
-        private int _startVertex;
-        
         public LightmapDrawContext(GraphicsDevice device)
         {
             _device = device;
-
-            // indices = new List<int>();
-            _vertices = new List<HullVertex>();
         }
         
-        public void Draw()
+        public void ClearShadowHulls()
+        {
+            _vertices.Clear();
+            _numIndicies = 0;
+        }
+
+        public void PrepareToDrawNextShadowHull()
+        {
+            _startVertex = _vertices.Count;
+        }
+
+        public void AddShadowHullVertex(HullVertex hullVertex)
+        {
+            _vertices.Add(hullVertex);
+        }
+
+        public void AddShadowHullIndex(int index)
+        {
+            _indices[_numIndicies++] = index + _startVertex;
+        }
+
+        public void DrawShadowHulls()
         {
             if (_numIndicies < 3)
             {
@@ -50,16 +63,9 @@ namespace Krypton
                 numVertices: _vertices.Count,
                 indexData: _indices,
                 indexOffset: 0,
-                primitiveCount: _numIndicies/3);
+                primitiveCount: _numIndicies / 3);
         }
-        
-        public void Clear()
-        {
-            // indices.Clear();
-            _vertices.Clear();
-            _numIndicies = 0;
-        }
-        
+
         public void DrawUnitQuad()
         {
             _device.DrawUserPrimitives(
@@ -133,21 +139,6 @@ namespace Krypton
                 indexData: clippedFovIndices,
                 indexOffset: 0,
                 primitiveCount: clippedFovIndices.Length / 3);
-        }
-
-        public void AddIndex(int index)
-        {
-            _indices[_numIndicies++] = index + _startVertex;
-        }
-
-        public void AddVertex(HullVertex hullVertex)
-        {
-            _vertices.Add(hullVertex);
-        }
-
-        public void SetStartVertex()
-        {
-            _startVertex = _vertices.Count;
         }
         
         private static int[] GetClippedFovIndicies(float fov)
