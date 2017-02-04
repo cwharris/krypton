@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Krypton.Common;
 using Krypton.Components;
 using Krypton.Design;
-using Krypton.Factories;
-using Krypton.Lights;
+using Krypton.Hull;
+using Krypton.Light;
 using Krypton.Testbed.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -90,7 +90,10 @@ namespace Krypton.Testbed
         
         protected override void LoadContent()
         {
-            _shadowHull = ShadowHullFactory.CreateRectangle(10, 10);
+            _shadowHull = ShadowHull.Create(
+                ShadowHullShape.CreateRectangle(
+                    width: 10,
+                    height: 10));
 
             var lightTexture = TextureFactory.CreatePoint(GraphicsDevice, 256);
 
@@ -172,7 +175,10 @@ namespace Krypton.Testbed
             // Generate some random hulls
             for (var i = 0; i < 100; i++)
             {
-                var hull = ShadowHullFactory.CreateRectangle(2, 1);
+                var hull = ShadowHull.Create(
+                    ShadowHullShape.CreateRectangle(
+                        width: 2,
+                        height: 1));
 
                 hull.Position = new Vector2(-50, 50);
                 hull.Angle = random.NextAngle();

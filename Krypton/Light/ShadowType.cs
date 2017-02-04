@@ -1,4 +1,4 @@
-﻿namespace Krypton.Lights
+﻿namespace Krypton.Light
 {
     public enum ShadowType
     {

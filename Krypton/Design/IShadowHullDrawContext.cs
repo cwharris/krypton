@@ -1,3 +1,5 @@
+using Krypton.Hull;
+
 namespace Krypton.Design
 {
     public interface IShadowHullDrawContext

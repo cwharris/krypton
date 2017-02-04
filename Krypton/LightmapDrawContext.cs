@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Krypton.Design;
+using Krypton.Hull;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

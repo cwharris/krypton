@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Krypton
+namespace Krypton.Hull
 {
     [DebuggerDisplay("{Position} {Normal} {Color}")]
     public struct ShadowHullVertex : IVertexType

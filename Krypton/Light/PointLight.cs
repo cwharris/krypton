@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Krypton.Common;
 using Krypton.Design;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Krypton.Lights
+namespace Krypton.Light
 {
     [DebuggerDisplay("Solid: {Position} {Radius} {Color} {Intensity}")]
     public class PointLight : ILight

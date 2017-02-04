@@ -1,7 +1,7 @@
 using System.Linq;
 using Krypton.Components;
 using Krypton.Design;
-using Krypton.Lights;
+using Krypton.Light;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
