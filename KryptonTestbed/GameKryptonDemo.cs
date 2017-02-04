@@ -10,48 +10,47 @@ namespace KryptonTestbed
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class KryptonDemoGame : Microsoft.Xna.Framework.Game
+    public class KryptonDemoGame : Game
     {
-        GraphicsDeviceManager graphics;
+        private const int NumLights = 25;
+        private const int NumHorzontalHulls = 20;
+        private const int NumVerticalHulls = 20;
+        private const float VerticalUnits = 50;
 
-        KryptonEngine krypton;
+        private readonly KryptonEngine _krypton;
+        private Texture2D _lightTexture;
+        private Light2D _light2D;
 
-        private Texture2D mLightTexture;
-        private int mNumLights = 25;
-        private int mNumHorzontalHulls = 20;
-        private int mNumVerticalHulls = 20;
-
-        private float mVerticalUnits = 50;
-
-        private Light2D mLight2D;
-
-        Random mRandom = new Random();
+        public static Random Random = new Random();
+        private readonly GraphicsDeviceManager _deviceManager;
 
         public KryptonDemoGame()
         {
             // Setup the graphics device manager with some default settings
-            this.graphics = new GraphicsDeviceManager(this);
-            this.graphics.PreferredBackBufferWidth = 1280;
-            this.graphics.PreferredBackBufferHeight = 720;
+            _deviceManager = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 1280,
+                PreferredBackBufferHeight = 720
+            };
 
             // Allow the window to be resized (to demonstrate render target recreation)
-            this.Window.AllowUserResizing = true;
+            Window.AllowUserResizing = true;
 
             // Setup the content manager with some default settings
-            this.Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content";
 
             // Create Krypton
-            this.krypton = new KryptonEngine(this, "KryptonEffect");
+            _krypton = new KryptonEngine(this, "KryptonEffect");
 
             // As a side note, you may want Krypton to be used as a GameComponent.
             // To do this, you would simply add the following line of code and remove the Initialize and Draw function of krypton below:
-            // this.Components.Add(this.krypton);
+            // Components.Add(krypton);
         }
 
         protected override void Initialize()
         {
             // Make sure to initialize krpyton, unless it has been added to the Game's list of Components
-            this.krypton.Initialize();
+            _krypton.Initialize();
 
             base.Initialize();
         }
@@ -59,16 +58,16 @@ namespace KryptonTestbed
         protected override void LoadContent()
         {
             // Create a new simple point light texture to use for the lights
-            this.mLightTexture = LightTextureBuilder.CreatePointLight(this.GraphicsDevice, 512);
+            _lightTexture = LightTextureBuilder.CreatePointLight(GraphicsDevice, 512);
 
             // Create some lights and hulls
-            this.CreateLights(mLightTexture, this.mNumLights);
-            this.CreateHulls(this.mNumHorzontalHulls, this.mNumVerticalHulls);
+            CreateLights(_lightTexture, NumLights);
+            CreateHulls(NumHorzontalHulls, NumVerticalHulls);
 
             // Create a light we can control
-            this.mLight2D = new Light2D()
+            _light2D = new Light2D
             {
-                Texture = this.mLightTexture,
+                Texture = _lightTexture,
                 X = 0,
                 Y = 0,
                 Range = 25,
@@ -76,61 +75,61 @@ namespace KryptonTestbed
                 ShadowType = ShadowType.Occluded
             };
 
-            this.krypton.Lights.Add(this.mLight2D);
+            _krypton.Lights.Add(_light2D);
         }
 
         private void CreateLights(Texture2D texture, int count)
         {
             // Make some random lights!
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
-                byte r = (byte)(this.mRandom.Next(255 - 64) + 64);
-                byte g = (byte)(this.mRandom.Next(255 - 64) + 64);
-                byte b = (byte)(this.mRandom.Next(255 - 64) + 64);
+                var r = (byte)(Random.Next(255 - 64) + 64);
+                var g = (byte)(Random.Next(255 - 64) + 64);
+                var b = (byte)(Random.Next(255 - 64) + 64);
 
                 Light2D light = new Light2D()
                 {
                     Texture = texture,
-                    Range = (float)(this.mRandom.NextDouble() * 5 + 5),
+                    Range = (float)(Random.NextDouble() * 5 + 5),
                     Color = new Color(r,g,b),
-                    //Intensity = (float)(this.mRandom.NextDouble() * 0.25 + 0.75),
+                    //Intensity = (float)(_random.NextDouble() * 0.25 + 0.75),
                     Intensity = 1f,
-                    Angle = MathHelper.TwoPi * (float)this.mRandom.NextDouble(),
-                    X = (float)(this.mRandom.NextDouble() * 50 - 25),
-                    Y = (float)(this.mRandom.NextDouble() * 50 - 25),
+                    Angle = MathHelper.TwoPi * (float)Random.NextDouble(),
+                    X = (float)(Random.NextDouble() * 50 - 25),
+                    Y = (float)(Random.NextDouble() * 50 - 25),
                 };
 
                 // Here we set the light's field of view
                 if (i % 2 == 0)
                 {
-                    light.Fov = MathHelper.PiOver2 * (float)(this.mRandom.NextDouble() * 0.75 + 0.25);
+                    light.Fov = MathHelper.PiOver2 * (float)(Random.NextDouble() * 0.75 + 0.25);
                 }
 
-                this.krypton.Lights.Add(light);
+                _krypton.Lights.Add(light);
             }
         }
 
         private void CreateHulls(int x, int y)
         {
-            float w = 50;
-            float h = 50;
+            const float w = 50;
+            const float h = 50;
 
             // Make lines of lines of hulls!
-            for (int j = 0; j < y; j++)
+            for (var j = 0; j < y; j++)
             {
                 // Make lines of hulls!
-                for (int i = 0; i < x; i++)
+                for (var i = 0; i < x; i++)
                 {
-                    var posX = (((i + 0.5f) * w) / x) - w / 2 + (j % 2 == 0 ? w / x / 2 : 0);
-                    var posY = (((j + 0.5f) * h) / y) - h / 2; // +(i % 2 == 0 ? h / y / 4 : 0);
+                    var posX = (i + 0.5f) * w / x - w / 2 + (j % 2 == 0 ? w / x / 2 : 0);
+                    var posY = (j + 0.5f) * h / y - h / 2; // +(i % 2 == 0 ? h / y / 4 : 0);
 
                     var hull = ShadowHull.CreateRectangle(Vector2.One*1f);
                     hull.Position.X = posX;
                     hull.Position.Y = posY;
-                    hull.Scale.X = (float)(this.mRandom.NextDouble() * 0.75f + 0.25f);
-                    hull.Scale.Y = (float)(this.mRandom.NextDouble() * 0.75f + 0.25f);
+                    hull.Scale.X = (float)(Random.NextDouble() * 0.75f + 0.25f);
+                    hull.Scale.Y = (float)(Random.NextDouble() * 0.75f + 0.25f);
 
-                    krypton.Hulls.Add(hull);
+                    _krypton.Hulls.Add(hull);
                 }
             }
         }
@@ -142,32 +141,48 @@ namespace KryptonTestbed
 
         protected override void Update(GameTime gameTime)
         {
+            const int speed = 5;
+
             // Make sure the user doesn't want to quit (but why would they?)
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
-                this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            {
+                Exit();
+                return;
+            }
+
+            if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
+            {
+                Exit();
+                return;
+            }
 
             // make it much simpler to deal with the time :)
-            var t = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            var speed = 5;
+            var t = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
             // Allow for randomization of lights and hulls, to demonstrait that each hull and light is individually rendered
             if (Keyboard.GetState().IsKeyDown(Keys.R))
             {
                 // randomize lights
-                foreach (Light2D light in this.krypton.Lights)
+                foreach (var light2D in _krypton.Lights)
                 {
-                    light.Position += Vector2.UnitY * (float)(this.mRandom.NextDouble() * 2 - 1) * t * speed;
-                    light.Position += Vector2.UnitX * (float)(this.mRandom.NextDouble() * 2 - 1) * t * speed;
-                    light.Angle -= MathHelper.TwoPi * (float)(this.mRandom.NextDouble() * 2 - 1) * t * speed;
+                    var light = light2D as Light2D;
+
+                    if (light == null)
+                    {
+                        continue;
+                    }
+
+                    light.Position += Vector2.UnitY * (float)(Random.NextDouble() * 2 - 1) * t * speed;
+                    light.Position += Vector2.UnitX * (float)(Random.NextDouble() * 2 - 1) * t * speed;
+                    light.Angle -= MathHelper.TwoPi * (float)(Random.NextDouble() * 2 - 1) * t * speed;
                 }
 
                 // randomize hulls
-                foreach (var hull in this.krypton.Hulls)
+                foreach (var hull in _krypton.Hulls)
                 {
-                    hull.Position += Vector2.UnitY * (float)(this.mRandom.NextDouble() * 2 - 1) * t * speed;
-                    hull.Position += Vector2.UnitX * (float)(this.mRandom.NextDouble() * 2 - 1) * t * speed;
-                    hull.Angle -= MathHelper.TwoPi * (float)(this.mRandom.NextDouble() * 2 - 1) * t * speed;
+                    hull.Position += Vector2.UnitY * (float)(Random.NextDouble() * 2 - 1) * t * speed;
+                    hull.Position += Vector2.UnitX * (float)(Random.NextDouble() * 2 - 1) * t * speed;
+                    hull.Angle -= MathHelper.TwoPi * (float)(Random.NextDouble() * 2 - 1) * t * speed;
                 }
             }
 
@@ -175,33 +190,51 @@ namespace KryptonTestbed
 
             // Light Position Controls
             if (keyboard.IsKeyDown(Keys.Up))
-                this.mLight2D.Y += t * speed;
+            {
+                _light2D.Y += t * speed;
+            }
 
             if (keyboard.IsKeyDown(Keys.Down))
-                this.mLight2D.Y -= t * speed;
+            {
+                _light2D.Y -= t * speed;
+            }
 
             if (keyboard.IsKeyDown(Keys.Right))
-                this.mLight2D.X += t * speed;
+            {
+                _light2D.X += t * speed;
+            }
 
             if (keyboard.IsKeyDown(Keys.Left))
-                this.mLight2D.X -= t * speed;
+            {
+                _light2D.X -= t * speed;
+            }
 
             // Shadow Type Controls
             if (keyboard.IsKeyDown(Keys.D1))
-                this.mLight2D.ShadowType = ShadowType.Solid;
+            {
+                _light2D.ShadowType = ShadowType.Solid;
+            }
 
             if (keyboard.IsKeyDown(Keys.D2))
-                this.mLight2D.ShadowType = ShadowType.Illuminated;
+            {
+                _light2D.ShadowType = ShadowType.Illuminated;
+            }
 
             if (keyboard.IsKeyDown(Keys.D3))
-                this.mLight2D.ShadowType = ShadowType.Occluded;
+            {
+                _light2D.ShadowType = ShadowType.Occluded;
+            }
             
             // Shadow Opacity Controls
             if (keyboard.IsKeyDown(Keys.O))
-                this.krypton.Hulls.ForEach(x => x.Opacity = MathHelper.Clamp(x.Opacity - t, 0, 1));
-            
+            {
+                _krypton.Hulls.ForEach(x => x.Opacity = MathHelper.Clamp(x.Opacity - t, 0, 1));
+            }
+
             if (keyboard.IsKeyDown(Keys.P))
-                this.krypton.Hulls.ForEach(x => x.Opacity = MathHelper.Clamp(x.Opacity + t, 0, 1));
+            {
+                _krypton.Hulls.ForEach(x => x.Opacity = MathHelper.Clamp(x.Opacity + t, 0, 1));
+            }
 
             base.Update(gameTime);
         }
@@ -209,18 +242,22 @@ namespace KryptonTestbed
         protected override void Draw(GameTime gameTime)
         {
             // Create a world view projection matrix to use with krypton
-            Matrix world = Matrix.Identity;
-            Matrix view = Matrix.CreateTranslation(new Vector3(0, 0, 0) * -1f);
-            Matrix projection = Matrix.CreateOrthographic(this.mVerticalUnits * this.GraphicsDevice.Viewport.AspectRatio, this.mVerticalUnits, 0, 1);
-            Matrix wvp = world * view * projection;
+            var world = Matrix.Identity;
+            var view = Matrix.CreateTranslation(new Vector3(0, 0, 0) * -1f);
+            var projection = Matrix.CreateOrthographic(
+                width: VerticalUnits*GraphicsDevice.Viewport.AspectRatio,
+                height: VerticalUnits,
+                zNearPlane: 0,
+                zFarPlane: 1);
+            var wvp = world * view * projection;
 
             // Assign the matrix and pre-render the lightmap.
             // Make sure not to change the position of any lights or shadow hulls after this call, as it won't take effect till the next frame!
-            this.krypton.Matrix = wvp;
-            this.krypton.LightMapPrepare();
+            _krypton.Matrix = wvp;
+            _krypton.LightMapPrepare();
 
             // Make sure we clear the backbuffer *after* Krypton is done pre-rendering
-            this.GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.White);
 
             // ----- DRAW STUFF HERE ----- //
             // By drawing here, you ensure that your scene is properly lit by krypton.
@@ -228,21 +265,21 @@ namespace KryptonTestbed
             // ----- DRAW STUFF HERE ----- //
 
             // Draw hulls
-            this.DebugDrawHulls(true);
+            DebugDrawHulls(true);
 
             // Draw krypton (This can be omited if krypton is in the Component list. It will simply draw krypton when base.Draw is called
-            this.krypton.Draw(gameTime);
+            _krypton.Draw(gameTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.H))
             {
                 // Draw hulls
-                this.DebugDrawHulls(false);
+                DebugDrawHulls(false);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.L))
             {
                 // Draw hulls
-                this.DebugDrawLights();
+                DebugDrawLights();
             }
 
             base.Draw(gameTime);
@@ -250,55 +287,57 @@ namespace KryptonTestbed
 
         private void DebugDrawHulls(bool drawSolid)
         {
-            this.krypton.RenderHelper.Effect.CurrentTechnique = this.krypton.RenderHelper.Effect.Techniques["DebugDraw"];
+            _krypton.RenderHelper.Effect.CurrentTechnique = _krypton.RenderHelper.Effect.Techniques["DebugDraw"];
 
-            this.GraphicsDevice.RasterizerState = new RasterizerState()
+            GraphicsDevice.RasterizerState = new RasterizerState
             {
                 CullMode = CullMode.None,
-                FillMode = drawSolid ? FillMode.Solid : FillMode.WireFrame,
+                FillMode = drawSolid
+                    ? FillMode.Solid
+                    : FillMode.WireFrame,
             };
 
             // Clear the helpers vertices
-            this.krypton.RenderHelper.ShadowHullVertices.Clear();
-            this.krypton.RenderHelper.ShadowHullIndicies.Clear();
+            _krypton.RenderHelper.ShadowHullVertices.Clear();
+            _krypton.RenderHelper.ShadowHullIndicies.Clear();
 
-            foreach (var hull in krypton.Hulls)
+            foreach (var hull in _krypton.Hulls)
             {
-                this.krypton.RenderHelper.BufferAddShadowHull(hull);
+                _krypton.RenderHelper.BufferAddShadowHull(hull);
             }
 
 
-            foreach (var effectPass in krypton.RenderHelper.Effect.CurrentTechnique.Passes)
+            foreach (var effectPass in _krypton.RenderHelper.Effect.CurrentTechnique.Passes)
             {
                 effectPass.Apply();
-                this.krypton.RenderHelper.BufferDraw();
+                _krypton.RenderHelper.BufferDraw();
             }
 
         }
 
         private void DebugDrawLights()
         {
-            this.krypton.RenderHelper.Effect.CurrentTechnique = this.krypton.RenderHelper.Effect.Techniques["DebugDraw"];
+            _krypton.RenderHelper.Effect.CurrentTechnique = _krypton.RenderHelper.Effect.Techniques["DebugDraw"];
 
-            this.GraphicsDevice.RasterizerState = new RasterizerState()
+            GraphicsDevice.RasterizerState = new RasterizerState()
             {
                 CullMode = CullMode.None,
                 FillMode = FillMode.WireFrame,
             };
 
             // Clear the helpers vertices
-            this.krypton.RenderHelper.ShadowHullVertices.Clear();
-            this.krypton.RenderHelper.ShadowHullIndicies.Clear();
+            _krypton.RenderHelper.ShadowHullVertices.Clear();
+            _krypton.RenderHelper.ShadowHullIndicies.Clear();
 
-            foreach (Light2D light in krypton.Lights)
+            foreach (var light in _krypton.Lights)
             {
-                this.krypton.RenderHelper.BufferAddBoundOutline(light.Bounds);
+                _krypton.RenderHelper.BufferAddBoundOutline(light.Bounds);
             }
 
-            foreach (var effectPass in krypton.RenderHelper.Effect.CurrentTechnique.Passes)
+            foreach (var effectPass in _krypton.RenderHelper.Effect.CurrentTechnique.Passes)
             {
                 effectPass.Apply();
-                this.krypton.RenderHelper.BufferDraw();
+                _krypton.RenderHelper.BufferDraw();
             }
 
         }
