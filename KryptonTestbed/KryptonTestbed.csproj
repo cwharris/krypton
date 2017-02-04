@@ -92,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="GameKryptonDemo.cs" />
+    <Compile Include="KryptonDemoGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
