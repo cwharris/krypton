@@ -9,21 +9,12 @@ namespace Krypton
 {
     public class KryptonEngine : DrawableGameComponent
     {
-        // The Krypton Effect
         private readonly string _effectAssetName;
         private Effect _effect;
-
-        // The goods
-
-        // World View Projection matrix, and it's min and max view bounds
         private Matrix _wvp = Matrix.Identity;
         private BoundingRect _bounds = BoundingRect.MinMax;
-
-        // Blur
         private float _bluriness;
         private RenderTarget2D _mapBlur;
-
-        // Light maps
         private RenderTarget2D _map;
         private LightMapSize _lightMapSize = LightMapSize.Full;
 
