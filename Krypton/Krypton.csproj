@@ -72,6 +72,7 @@
     <Compile Include="Common\BoundingRect.cs" />
     <Compile Include="KryptonEngine.cs" />
     <Compile Include="Lights\ILight2D.cs" />
+    <Compile Include="Lights\ShadowType.cs" />
     <Compile Include="LightTextureBuilder.cs" />
     <Compile Include="Lights\Light2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

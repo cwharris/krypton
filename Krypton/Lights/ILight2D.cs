@@ -7,6 +7,8 @@ namespace Krypton.Lights
     {
         BoundingRect Bounds { get; }
 
-        void Draw(KryptonRenderHelper renderHelper, List<ShadowHull> hulls);
+        void Draw(
+            KryptonRenderHelper renderHelper,
+            IList<ShadowHull> shadowHulls);
     }
 }
