@@ -17,7 +17,7 @@ namespace Krypton
         };
 
         private readonly GraphicsDevice _device;
-        private readonly List<HullVertex> _vertices = new List<HullVertex>();
+        private readonly List<ShadowHullVertex> _vertices = new List<ShadowHullVertex>();
         private readonly int[] _indices = new int[1024 * 1024];
         private int _numIndicies;
         private int _startVertex;
@@ -39,9 +39,9 @@ namespace Krypton
             _startVertex = _vertices.Count;
         }
 
-        public void AddShadowHullVertex(HullVertex hullVertex)
+        public void AddShadowHullVertex(ShadowHullVertex shadowHullVertex)
         {
-            _vertices.Add(hullVertex);
+            _vertices.Add(shadowHullVertex);
         }
 
         public void AddShadowHullIndex(int index)

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Krypton
 {
     [DebuggerDisplay("{Position} {Normal} {Color}")]
-    public struct HullVertex : IVertexType
+    public struct ShadowHullVertex : IVertexType
     {
         public Vector2 Position;
 
@@ -15,7 +15,7 @@ namespace Krypton
         
         public VertexDeclaration VertexDeclaration => Declaration;
         
-        public HullVertex(
+        public ShadowHullVertex(
             Vector2 position,
             Vector2 normal) :
             this(
@@ -25,7 +25,7 @@ namespace Krypton
         {
         }
         
-        public HullVertex(
+        public ShadowHullVertex(
             Vector2 position,
             Vector2 normal,
             float opacity) :
@@ -36,7 +36,7 @@ namespace Krypton
         {
         }
         
-        public HullVertex(
+        public ShadowHullVertex(
             Vector2 position,
             Vector2 normal,
             Color color)

@@ -90,7 +90,7 @@ namespace Krypton.Testbed
         
         protected override void LoadContent()
         {
-            _shadowHull = HullFactory.CreateRectangle(10, 10);
+            _shadowHull = ShadowHullFactory.CreateRectangle(10, 10);
 
             var lightTexture = TextureFactory.CreatePoint(GraphicsDevice, 256);
 
@@ -172,7 +172,7 @@ namespace Krypton.Testbed
             // Generate some random hulls
             for (var i = 0; i < 100; i++)
             {
-                var hull = HullFactory.CreateRectangle(2, 1);
+                var hull = ShadowHullFactory.CreateRectangle(2, 1);
 
                 hull.Position = new Vector2(-50, 50);
                 hull.Angle = random.NextAngle();

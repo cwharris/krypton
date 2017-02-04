@@ -16,42 +16,27 @@ namespace Krypton
         public float Angle { get; set; }
         public float RadiusSquared { get; }
 
-        private readonly HullVertex[] _vertices;
+        private readonly ShadowHullVertex[] _vertices;
         private readonly int[] _indices;
         private Matrix _normalMatrix = Matrix.Identity;
         private Matrix _vertexMatrix = Matrix.Identity;
         private float _cos;
         private float _sin;
-        private HullVertex _hullVertex;
-        private HullVertex _point;
+        private ShadowHullVertex _shadowHullVertex;
+        private ShadowHullVertex _point;
 
-        public static ShadowHull Create(IList<Vector2> points)
+        public static ShadowHull Create(params Vector2[] points)
         {
-            return new ShadowHull();
+            return new ShadowHull(points);
         }
 
-        private ShadowHull(
-            HullVertex[] vertices,
-            int[] indicies,
-            float radiusSquared)
-        {
-            _vertices = vertices;
-            _indices = indicies;
-            RadiusSquared = radiusSquared;
-        }
-
-        public ShadowHull(params Vector2[] points) :
-            this((IList<Vector2>) points)
-        {
-        }
-
-        public ShadowHull(IList<Vector2> points)
+        private ShadowHull(IList<Vector2> points)
         {
             var numVertices = points.Count * 2;
             var numTris = numVertices - 2;
             var numIndicies = numTris * 3;
 
-            _vertices = new HullVertex[numVertices];
+            _vertices = new ShadowHullVertex[numVertices];
             _indices = new int[numIndicies];
 
             for (var i = 0; i < points.Count; i++)
@@ -64,13 +49,13 @@ namespace Krypton
                 normal.Normalize();
 
                 _vertices[i * 2] =
-                    new HullVertex(
+                    new ShadowHullVertex(
                         position: p1,
                         normal: normal,
                         color: new Color(0, 0, 0, 0.1f));
 
                 _vertices[i * 2 + 1] =
-                    new HullVertex(
+                    new ShadowHullVertex(
                         position: p2,
                         normal: normal,
                         color: new Color(0, 0, 0, 0.1f));
@@ -121,16 +106,16 @@ namespace Krypton
                 Vector2.Transform(
                     ref _point.Position,
                     ref _vertexMatrix,
-                    out _hullVertex.Position);
+                    out _shadowHullVertex.Position);
 
                 Vector2.TransformNormal(
                     ref _point.Normal,
                     ref _normalMatrix,
-                    out _hullVertex.Normal);
+                    out _shadowHullVertex.Normal);
 
-                _hullVertex.Color = ShadowBlack;
+                _shadowHullVertex.Color = ShadowBlack;
 
-                drawContext.AddShadowHullVertex(_hullVertex);
+                drawContext.AddShadowHullVertex(_shadowHullVertex);
             }
 
             var hullIndicesLength = _indices.Length;

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Krypton.Factories
 {
-    public static class HullFactory
+    public static class ShadowHullFactory
     {
         public static ShadowHull CreateCircle(
             float radius,
@@ -20,14 +20,14 @@ namespace Krypton.Factories
                     (float) Math.Sin(i*angle)*radius);
             }
 
-            return new ShadowHull(vertices);
+            return ShadowHull.Create(vertices);
         }
 
         public static ShadowHull CreateRectangle(
             float width,
             float height)
         {
-            return new ShadowHull(
+            return ShadowHull.Create(
                 new Vector2(+width, +height),
                 new Vector2(-width, +height),
                 new Vector2(-width, -height),

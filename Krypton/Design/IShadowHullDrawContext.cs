@@ -2,7 +2,7 @@ namespace Krypton.Design
 {
     public interface IShadowHullDrawContext
     {
-        void AddShadowHullVertex(HullVertex hullVertex);
+        void AddShadowHullVertex(ShadowHullVertex shadowHullVertex);
         void AddShadowHullIndex(int index);
     }
 }

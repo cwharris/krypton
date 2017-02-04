@@ -60,7 +60,7 @@ namespace Krypton.Testbed
 
         protected override void LoadContent()
         {
-            _shadowHull = HullFactory.CreateRectangle(10, 10);
+            _shadowHull = ShadowHullFactory.CreateRectangle(10, 10);
 
             var lightTexture = TextureFactory.CreatePoint(GraphicsDevice, 256);
 
@@ -86,7 +86,7 @@ namespace Krypton.Testbed
             {
                 for (var y = 0; y < 20; y++)
                 {
-                    var shadowHull = HullFactory.CreateRectangle(
+                    var shadowHull = ShadowHullFactory.CreateRectangle(
                         width: 2,
                         height: 2);
 

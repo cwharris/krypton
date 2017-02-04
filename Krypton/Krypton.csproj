@@ -74,9 +74,9 @@
     <Compile Include="Design\ILightmapProvider.cs" />
     <Compile Include="Design\IShadowHull.cs" />
     <Compile Include="Design\IShadowHullDrawContext.cs" />
-    <Compile Include="Factories\HullFactory.cs" />
+    <Compile Include="Factories\ShadowHullFactory.cs" />
     <Compile Include="Factories\TextureFactory.cs" />
-    <Compile Include="HullVertex.cs" />
+    <Compile Include="ShadowHullVertex.cs" />
     <Compile Include="Design\ILightmapPassProvider.cs" />
     <Compile Include="LightmapDrawContext.cs" />
     <Compile Include="LightmapEffect.cs" />
