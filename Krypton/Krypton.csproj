@@ -73,6 +73,7 @@
     <Compile Include="BlurTechnique.cs" />
     <Compile Include="Common\BoundingRect.cs" />
     <Compile Include="KryptonEngine.cs" />
+    <Compile Include="LightMapSize.cs" />
     <Compile Include="Lights\ILight2D.cs" />
     <Compile Include="Lights\ShadowType.cs" />
     <Compile Include="LightTextureBuilder.cs" />
