@@ -35,10 +35,10 @@ namespace Krypton
             float fov,
             float nearPlaneDistance)
         {
-            //if (!IsPowerOfTwo(size))
-            //{
-            //    throw new ArgumentOutOfRangeException(nameof(size), "The size must be a power of 2");
-            //}
+            if (!IsPowerOfTwo(size))
+            {
+                throw new ArgumentOutOfRangeException(nameof(size), "The size must be a power of 2");
+            }
 
             var data = new float[size, size];
 
