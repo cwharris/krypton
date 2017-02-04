@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton", "Krypton\Krypton.csproj", "{ED22FBD5-5E14-4AB2-9442-360BB01CE2CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Testbed.Content", "Krypton.Testbed.Content\Krypton.Testbed.Content.contentproj", "{8A68FA87-5962-4E0F-92EC-EE4741D7B1B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Testbed", "Krypton.Testbed\Krypton.Testbed.csproj", "{EE23CC89-8068-4505-8498-7E30D1A1FC65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED22FBD5-5E14-4AB2-9442-360BB01CE2CD}.Debug|x86.ActiveCfg = Debug|x86
+		{ED22FBD5-5E14-4AB2-9442-360BB01CE2CD}.Debug|x86.Build.0 = Debug|x86
+		{ED22FBD5-5E14-4AB2-9442-360BB01CE2CD}.Release|x86.ActiveCfg = Release|x86
+		{ED22FBD5-5E14-4AB2-9442-360BB01CE2CD}.Release|x86.Build.0 = Release|x86
+		{8A68FA87-5962-4E0F-92EC-EE4741D7B1B0}.Debug|x86.ActiveCfg = Debug|x86
+		{8A68FA87-5962-4E0F-92EC-EE4741D7B1B0}.Release|x86.ActiveCfg = Release|x86
+		{EE23CC89-8068-4505-8498-7E30D1A1FC65}.Debug|x86.ActiveCfg = Debug|x86
+		{EE23CC89-8068-4505-8498-7E30D1A1FC65}.Debug|x86.Build.0 = Debug|x86
+		{EE23CC89-8068-4505-8498-7E30D1A1FC65}.Release|x86.ActiveCfg = Release|x86
+		{EE23CC89-8068-4505-8498-7E30D1A1FC65}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
