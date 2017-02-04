@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Krypton.Components;
 using Krypton.Design;
 using Krypton.Factories;
-using Krypton.Fluent;
 using Krypton.Lights;
 using Krypton.Testbed.Components;
 using Microsoft.Xna.Framework;
@@ -87,9 +86,15 @@ namespace Krypton.Testbed
             {
                 for (var y = 0; y < 20; y++)
                 {
-                    _lightmapGenerator.Hulls.Add(
-                        HullFactory.CreateRectangle(2, 2)
-                            .Position((x*20) - 10, (y*20) - 10));
+                    var shadowHull = HullFactory.CreateRectangle(
+                        width: 2,
+                        height: 2);
+
+                    shadowHull.Position = new Vector2(
+                        x: x*20 - 10,
+                        y: y*20 - 10);
+
+                    _lightmapGenerator.Hulls.Add(shadowHull);
                 }
             }
         }

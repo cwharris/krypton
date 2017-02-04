@@ -9,18 +9,18 @@ namespace Krypton
     {
         private readonly GraphicsDevice _device;
         private readonly LightmapEffect _lightmapEffect;
-        private readonly ILightmapDrawContext _drawContext;
+        private readonly ILightmapDrawContext _lightmapDrawContext;
 
         public Color AmbientColor { get; set; }
 
         public LightmapGenerator(
             GraphicsDevice device,
             LightmapEffect lightmapEffect,
-            ILightmapDrawContext drawContext)
+            ILightmapDrawContext lightmapDrawContext)
         {
             _device = device;
             _lightmapEffect = lightmapEffect;
-            _drawContext = drawContext;
+            _lightmapDrawContext = lightmapDrawContext;
         }
 
         public void DrawLightmap(
@@ -39,8 +39,8 @@ namespace Krypton
                 light.Draw(
                     lightmapEffect: _lightmapEffect,
                     pass: pass,
-                    helper: _drawContext,
-                    hulls: hulls);
+                    lightmapDrawContext: _lightmapDrawContext,
+                    shadowHulls: hulls);
             }
         }
     }

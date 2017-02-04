@@ -12,7 +12,7 @@ namespace Krypton.Design
         void Draw(
             LightmapEffect lightmapEffect,
             ILightmapPass pass,
-            ILightmapDrawContext helper,
-            IEnumerable<IShadowHull> hulls);
+            ILightmapDrawContext lightmapDrawContext,
+            IEnumerable<IShadowHull> shadowHulls);
     }
 }

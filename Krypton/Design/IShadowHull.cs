@@ -6,6 +6,6 @@ namespace Krypton.Design
     {
         Vector2 Position { get; }
         float RadiusSquared { get; }
-        void Draw(ILightmapDrawContext drawContext);
+        void Draw(IShadowHullDrawContext drawContext);
     }
 }

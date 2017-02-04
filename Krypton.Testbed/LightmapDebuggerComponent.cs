@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Krypton.Testbed
 {
-    public class LightmapDebugger : DrawableGameComponent
+    public class LightmapDebuggerComponent : DrawableGameComponent
     {
         private readonly LightmapGeneratorComponent _lightmapGenerator;
 
@@ -15,7 +15,7 @@ namespace Krypton.Testbed
 
         private Texture2D _texture;
 
-        public LightmapDebugger(Game game, LightmapGeneratorComponent lightmapGenerator)
+        public LightmapDebuggerComponent(Game game, LightmapGeneratorComponent lightmapGenerator)
             : base(game)
         {
             _lightmapGenerator = lightmapGenerator;

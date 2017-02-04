@@ -4,7 +4,6 @@ using Krypton.Common;
 using Krypton.Components;
 using Krypton.Design;
 using Krypton.Factories;
-using Krypton.Fluent;
 using Krypton.Lights;
 using Krypton.Testbed.Components;
 using Microsoft.Xna.Framework;
@@ -173,10 +172,12 @@ namespace Krypton.Testbed
             // Generate some random hulls
             for (var i = 0; i < 100; i++)
             {
-                _lightmapGenerator.Hulls.Add(
-                    HullFactory.CreateRectangle(2, 1)
-                        .Position(random.NextVector(-50, 50))
-                        .Angle(random.NextAngle()));
+                var hull = HullFactory.CreateRectangle(2, 1);
+
+                hull.Position = new Vector2(-50, 50);
+                hull.Angle = random.NextAngle();
+
+                _lightmapGenerator.Hulls.Add(hull);
             }
         }
     }
