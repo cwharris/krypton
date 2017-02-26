@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using Krypton.Components;
 using Krypton.Design;
-using Krypton.Factories;
-using Krypton.Lights;
+using Krypton.Hull;
+using Krypton.Light;
 using Krypton.Testbed.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -60,7 +60,21 @@ namespace Krypton.Testbed
 
         protected override void LoadContent()
         {
-            _shadowHull = HullFactory.CreateRectangle(10, 10);
+            _shadowHull = ShadowHull.Create(new[]
+            {
+                ShadowHullShape.CreateRectangle(
+                    width: 10,
+                    height: 2,
+                    offset: new Vector2(
+                        0,
+                        0)),
+                ShadowHullShape.CreateRectangle(
+                    width: 2,
+                    height: 10,
+                    offset: new Vector2(
+                        0,
+                        0))
+            });
 
             var lightTexture = TextureFactory.CreatePoint(GraphicsDevice, 256);
 
@@ -86,9 +100,10 @@ namespace Krypton.Testbed
             {
                 for (var y = 0; y < 20; y++)
                 {
-                    var shadowHull = HullFactory.CreateRectangle(
-                        width: 2,
-                        height: 2);
+                    var shadowHull = ShadowHull.Create(
+                        ShadowHullShape.CreateRectangle(
+                            width: 2,
+                            height: 2));
 
                     shadowHull.Position = new Vector2(
                         x: x*20 - 10,

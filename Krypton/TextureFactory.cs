@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Krypton.Factories
+namespace Krypton
 {
     public static class TextureFactory
     {
